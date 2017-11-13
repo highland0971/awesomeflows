@@ -1,0 +1,41 @@
+{
+  "name": "TaskMail",
+  "version": "0.0.1",
+  "description": "Mail based project management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --progress --watch",
+    "start": "electron ."
+  },
+  "author": "joy.highland@gmail.com",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "dhtmlx-gantt": "^4.2.1",
+    "dhtmlx-scheduler": "^4.4.0",
+    "echarts": "^3.8.4",
+    "electron": "^1.8.1",
+    "lodash": "^4.17.4",
+    "material-ui": "^1.0.0-beta.20",
+    "material-ui-icons": "^1.0.0-beta.15",
+    "react": "^15.6.2",
+    "react-calendar-heatmap": "^1.6.1",
+    "react-dom": "^15.6.2",
+    "react-tap-event-plugin": "^2.0.1",
+    "typeface-roboto": "0.0.22"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "file-loader": "^0.11.2",
+    "loader-utils": "^1.1.0",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^2.7.0"
+  }
+}
