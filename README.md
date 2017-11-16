@@ -13,6 +13,9 @@ Currently we build and test the AF with Node.js 8.9.1, you can download and inst
 
 `npm install`
 
+## Build
+`npm build`
+
 ## Run
 `npm start`
 
