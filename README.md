@@ -6,7 +6,9 @@ Currently we build and test the AF with Node.js 8.9.1, you can download and inst
 
 2. Clone the repository and install dependents
 `git clone https://github.com/highland0971/awesomeflows.git
+
 cd awesomeflows
+
 npm install
 `
 
