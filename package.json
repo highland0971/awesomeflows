@@ -1,5 +1,5 @@
 {
-  "name": "TaskMail",
+  "name": "Awesome Flows",
   "version": "0.0.1",
   "description": "Mail based project management",
   "main": "index.js",
@@ -19,10 +19,10 @@
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.20",
     "material-ui-icons": "^1.0.0-beta.15",
-    "react": "^15.6.2",
+    "moment": "^2.19.2",
+    "react": "^16.1.1",
     "react-calendar-heatmap": "^1.6.1",
-    "react-dom": "^15.6.2",
-    "react-tap-event-plugin": "^2.0.1",
+    "react-dom": "^16.1.1",
     "typeface-roboto": "0.0.22"
   },
   "devDependencies": {
@@ -37,5 +37,9 @@
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^2.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/highland0971/awesomeflows.git"
+  },
 }
