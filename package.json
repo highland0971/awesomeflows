@@ -1,5 +1,5 @@
 {
-  "name": "Awesome Flows",
+  "name": "AwesomeFlows",
   "version": "0.0.1",
   "description": "Mail based project management",
   "main": "index.js",
@@ -41,5 +41,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/highland0971/awesomeflows.git"
-  },
+  }
 }
