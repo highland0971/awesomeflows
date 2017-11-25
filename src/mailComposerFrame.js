@@ -27,15 +27,12 @@ import {MailListItemIcon} from './mailListItem'
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        height:'100%',
-    },
-    flex: {
-        flex: 1,
+        flex:1,
+        display:'flex',
+        flexDirection:'column'
     },
     button: {
         margin: theme.spacing.unit,
-        // height:'1em',
         alignItems:'center ',
     },
     mainContent: {
@@ -52,9 +49,9 @@ const styles = theme => ({
     card: {
         marginTop: '1px',
         maxWidth: '100%',
-        height:'100%',
         display:'flex',
-        flexDirection:'column'
+        flexDirection:'column',
+        flex:1
     },
     row: {
         display: 'flex',
@@ -94,7 +91,7 @@ class mailComposerFrame extends Component {
             <div className={classes.root}>
                 <AppBar position="static" color="default" >
                     <Toolbar className={classes.toolbar} >
-                        <div className={classes.flex}></div>
+                        <div style={{flex:1}}/>
                         <IconButton className={classes.button}>
                             <ReplyIcon />
                         </IconButton>
@@ -157,7 +154,7 @@ class mailComposerFrame extends Component {
                         </CardContent>
                         <Divider />
                     </Collapse>
-                    <CardContent style={{flexGrow:1,overflowY:'auto'}}>
+                    <CardContent style={{flex:1,overflowY:'auto'}}>
                         {this.props.children}
                     </CardContent>
                 </Card>

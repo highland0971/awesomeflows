@@ -37,6 +37,7 @@ import DraftIcon from 'material-ui-icons/Drafts';
 import {blue,blueGrey} from 'material-ui/colors';
 
 import {SideFunctionMenu,ContentListComponent} from './view/commonComponent';
+import MailComposerFrame from './mailComposerFrame';
 
 const searchInputStyle = theme => ({
 
@@ -320,8 +321,21 @@ class mainLayout extends React.Component {
                             />
                         </Drawer>
                     </Grid>
-                    <Grid item hidden={{smDown: true}} sm={8} md={8} lg={8} xl={8}>
-                        hello
+                    <Grid item hidden={{smDown: true}} sm={8} md={8} lg={8} xl={8} style={{flex:1,display:'flex',flexDirection:'column'}}>
+                        <MailComposerFrame  title={"怎么办，你看着办吧"}
+                                            author={"Andy Wang<joy.highland@gmail.com>"}
+                                            datetime = {"2017-09-12 13:32:33"}
+                                            itemType = {"mail"}
+                                            itemStatus = {"new"}>
+                            <p>
+                                十八大以来，习近平对外出访数十次，无论是署名文章还是主旨演讲，他的讲话里始终充满着古今中外的优秀文化元素。广征博引、纵横捭阖，具有鲜明特点和魅力的“习式”语言给人留下了深刻印象。
+                                在刚刚结束的“一带一路”国际合作高峰论坛上，习近平开场便引用《兰亭集序》中的名句“群贤毕至，少长咸集”来描述会议盛况，欢迎各国来宾。会上，习近平道出“不积跬步，无以至千里”“金字塔是一块块石头垒成的”“伟业非一日之功”，用中国、阿拉伯、欧洲的谚语名句强调同一个道理，即“一带一路”建设要稳扎稳打，久久为功，“一步一个脚印推进实施，一点一滴抓出成果”。
+                                “相知无远近，万里尚为邻”，2016年11月，习近平在秘鲁国会发表演讲时引用了唐代诗人张九龄《送韦城李少府》中的名句，表明两国虽地理位置距离遥远，但是国家关系仍可以像邻居一样亲密。
+                                “未之见而亲焉，可以往矣；久而不忘焉，可以来矣。”2016年1月，在阿盟总部演讲时，习近平引用这句两千多年前管子的话来讲述此行的重要意义。随后，他又道出孟子的“立天下之正位，行天下之大道”，进一步阐释中国对中东政策的坚持和立场，言简意赅，鞭辟入里。
+                                在博鳌亚洲论坛2015年年会上，习近平说，“夫物之不齐，物之情也”，强调“不同文明没有优劣之分，只有特色之别”，表达了要促进不同文明不同发展模式交流对话，在竞争比较中取长补短，在交流互鉴中共同发展的深刻思想。
+                                习近平在讲话中引用古今中外的名言警句、古语诗词，看似顺手拈来，但无不恰到好处，尽画龙点睛之妙，这既是中西方传统文化的交融，也是习近平对中国智慧的最好“代言”。
+                            </p>
+                        </MailComposerFrame>
                     </Grid>
                 </Grid>
 
