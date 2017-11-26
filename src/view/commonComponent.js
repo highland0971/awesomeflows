@@ -18,8 +18,8 @@ const contentListStyle = theme =>({
         borderRadius:2,
         marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit,
-        marginLeft:theme.spacing.unit,
-        marginRight:theme.spacing.unit,
+        marginLeft:theme.spacing.unit*2,
+        marginRight:theme.spacing.unit*2,
         boxShadow:'0px 1px 5px 0px rgba(0, 0, 0, 0.2),' +
         '0px 2px 2px 0px rgba(0, 0, 0, 0.14), ' +
         '0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
@@ -43,12 +43,12 @@ class _contentListComponent extends Component{
                         entry => (
 
                             <ListItem button key={entry.id}
-                                      onClick={(selection = entry.id) => {
-                                          this.handleClick && this.handleClick(selection);
+                                      onClick={() => {
+                                          this.handleClick && this.handleClick(entry);
+                                          // console.log(selection);
                                              }}
                                       classes = {{root:classes.root}}
                             >
-
                                 <ListItemIcon>
                                     {entry.icon}
                                 </ListItemIcon>

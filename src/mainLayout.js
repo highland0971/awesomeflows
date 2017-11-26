@@ -36,7 +36,10 @@ import DraftIcon from 'material-ui-icons/Drafts';
 
 import {blue,blueGrey} from 'material-ui/colors';
 
+import Moment from 'moment';
+
 import {SideFunctionMenu,ContentListComponent} from './view/commonComponent';
+import ChatFrame from './view/chatWindow/chatFrame'
 import MailComposerFrame from './mailComposerFrame';
 
 const searchInputStyle = theme => ({
@@ -181,6 +184,13 @@ class mainLayout extends React.Component {
         TALKS:'talks'
     };
 
+    static ITEM_TYPE={
+        MAIL:'mail',
+        TASK:'task',
+        CHAT:'chat',
+        DOC:'doc'
+    }
+
     constructor(props) {
 
         super(props);
@@ -192,7 +202,9 @@ class mainLayout extends React.Component {
             chatContact: 'null',
             drawerOpen: false,
             currentMailAccount:"joy.highland@gmail.com",
+            handleTarget:null,
         };
+
         this.sideMenuFunctions = {};
         this.sideMenuFunctions[mainLayout.DOMAIN.PROJECT] = [
             {key: 'dashboard', caption: 'Dashboard', icon: <DashBoardIcon/>},
@@ -219,31 +231,46 @@ class mainLayout extends React.Component {
 
         this.contentItems = {};
         this.contentItems[mainLayout.DOMAIN.INFOHUB] = [
-            {id: 'mail-1', primary:'王炳史', secondary: '今天去哪里吃饭，等你回复', icon: <EmailIcon/>},
-            {id: 'contact-msg-1', primary:'Andy',secondary: '第15行有错误，BOSS说今天必须改完', icon: <Avatar src={"https://material-ui-next.com/static/images/remy.jpg"}/>},
-            {id: 'task-1',primary:'韩梅梅', secondary: 'UI标准文档提交', icon: <TaskIcon/>},
-            {id: 'mail-2',primary:'hr@ccpi.com', secondary: 'Re:Re:答复: 转发: 关于召开2017网络质量指标工作研讨会的通知(网通[2017]307)', icon: <EmailIcon/>},
-            {id: 'discuss-topic',primary:'PM Wang', secondary: '工程设计材料有问题，谁负责的检查？', icon: <ForumIcon/>},
-            {id: 'docs-1', primary:'Google HR',secondary: '《XXX公司人力资源管理制度》', icon: <DocumentIcon/>},
-            {id: 'mail-3', primary:'王炳史', secondary: '关于公司规范员工行为准则的通知', icon: <EmailIcon/>},
-            {id: 'mail-4', primary:'王炳史', secondary: '请协助提供X接口数据规范，今日反馈', icon: <EmailIcon/>},
+            {id: 'mail-1', targetType:mainLayout.ITEM_TYPE.MAIL,primary:'王炳史', secondary: '今天去哪里吃饭，等你回复', icon: <EmailIcon/>},
+            {id: 'contact-msg-1',targetType:mainLayout.ITEM_TYPE.CHAT, primary:'Andy',secondary: '第15行有错误，BOSS说今天必须改完', icon: <Avatar src={"https://material-ui-next.com/static/images/remy.jpg"}/>},
+            {id: 'task-1',targetType:mainLayout.ITEM_TYPE.TASK, primary:'韩梅梅', secondary: 'UI标准文档提交', icon: <TaskIcon/>},
+            {id: 'mail-2',targetType:mainLayout.ITEM_TYPE.MAIL,primary:'hr@ccpi.com', secondary: 'Re:Re:答复: 转发: 关于召开2017网络质量指标工作研讨会的通知(网通[2017]307)', icon: <EmailIcon/>},
+            {id: 'discuss-topic',targetType:mainLayout.ITEM_TYPE.CHAT,primary:'PM Wang', secondary: '工程设计材料有问题，谁负责的检查？', icon: <ForumIcon/>},
+            {id: 'docs-1',targetType:mainLayout.ITEM_TYPE.DOC, primary:'Google HR',secondary: '《XXX公司人力资源管理制度》', icon: <DocumentIcon/>},
+            {id: 'mail-3',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '关于公司规范员工行为准则的通知', icon: <EmailIcon/>},
+            {id: 'mail-4',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '请协助提供X接口数据规范，今日反馈', icon: <EmailIcon/>},
         ];
         this.contentItems[mainLayout.DOMAIN.MAIL] = [
-            {id: 'dashboard', caption: 'Dashboard', icon: <EmailIcon/>},
-            {id: 'members', caption: 'Members', icon: <EmailIcon/>},
-            {id: 'task', caption: 'Task', icon: <EmailIcon/>},
-            {id: 'mail', caption: 'Mails', icon: <EmailIcon/>},
-            {id: 'discuss', caption: 'Discusses', icon: <EmailIcon/>},
-            {id: 'docs', caption: 'Archives', icon: <EmailIcon/>},
+            {id: 'mail-1', targetType:mainLayout.ITEM_TYPE.MAIL,primary:'王炳史', secondary: '今天去哪里吃饭，等你回复', icon: <EmailIcon/>},
+            {id: 'mail-2',targetType:mainLayout.ITEM_TYPE.MAIL,primary:'hr@ccpi.com', secondary: 'Re:Re:答复: 转发: 关于召开2017网络质量指标工作研讨会的通知(网通[2017]307)', icon: <EmailIcon/>},
+            {id: 'mail-3',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '关于公司规范员工行为准则的通知', icon: <EmailIcon/>},
+            {id: 'mail-4',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '请协助提供X接口数据规范，今日反馈', icon: <EmailIcon/>},
         ];
         this.contentItems[mainLayout.DOMAIN.TRACKER] = [
-            {id: 'dashboard', caption: 'Dashboard', icon: <EmailIcon/>},
-            {id: 'members', caption: 'Members', icon: <TaskIcon/>},
-            {id: 'task', caption: 'Task', icon: <EmailIcon/>},
-            {id: 'mail', caption: 'Mails', icon: <EmailIcon/>},
-            {id: 'discuss', caption: 'Discusses', icon: <TaskIcon/>},
-            {id: 'docs', caption: 'Archives', icon: <EmailIcon/>},
+            {id: 'mail-1', targetType:mainLayout.ITEM_TYPE.MAIL,primary:'王炳史', secondary: '今天去哪里吃饭，等你回复', icon: <EmailIcon/>},
+            {id: 'task-1',targetType:mainLayout.ITEM_TYPE.TASK, primary:'韩梅梅', secondary: 'UI标准文档提交', icon: <TaskIcon/>},
+            {id: 'mail-2',targetType:mainLayout.ITEM_TYPE.MAIL,primary:'hr@ccpi.com', secondary: 'Re:Re:答复: 转发: 关于召开2017网络质量指标工作研讨会的通知(网通[2017]307)', icon: <EmailIcon/>},
+            {id: 'mail-3',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '关于公司规范员工行为准则的通知', icon: <EmailIcon/>},
+            {id: 'mail-4',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '请协助提供X接口数据规范，今日反馈', icon: <EmailIcon/>},
         ];
+
+        this.chatDiaglogs = [
+            {id:'1',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'第15行有错误，BOSS说今天必须改完',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'2',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'昨天那行代码你还没有调完呢',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'3',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'另外，你得明白我说的是什么，文档规范你一定要仔细看，细节都在里面',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'4',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'后天吧，咱们组织春游',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'5',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'有什么想去的地方，你可以推荐',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'6',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'人呢？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'7',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'怎么，你看我像疯子？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'8',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'哎哎，说你呢！说你呢！',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'9',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'嗯？？？？？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'10',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'有出什么事了？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'11',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'不好意思，一直再加班，很多事情来不及仔细研究',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'12',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'等我想好后答复你',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'13',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'今天天气不错',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'14',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'你说五台山怎么样？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+        ]
+        this.chatDiaglogs.sort((a,b) => a.timestamp.isBefore(b.timestamp)?-1:1);
         // console.log(this.sideMenuFunctions);
     }
 
@@ -270,9 +297,15 @@ class mainLayout extends React.Component {
         });
     }
 
+    handleTargetChange (item) {
+        console.log(item);
+        this.setState({handleTarget:item});
+    }
+
     render() {
         const { classes } = this.props;
         const { domain } = this.state;
+        console.log(this.state);
 
         return (
             <div className={classes.root}>
@@ -292,10 +325,10 @@ class mainLayout extends React.Component {
                         </AppBar>
                         {/*<div style={{flex:1,overflowY:'scroll'}}>*/}
                         <div className={classes.customScroll}>
-                            <ContentListComponent items = {this.contentItems[this.state.domain]}/>
+                            <ContentListComponent items = {this.contentItems[this.state.domain]} onClick={(item) => this.handleTargetChange(item)}/>
                         </div>
                         <BottomNavigation value={domain} onChange={this.handleChange}
-                                          style={{borderWidth:'1px 0px 0px 0px',borderColor:'gray',borderStyle:'solid'}}>
+                                          style={{borderWidth:'1px 0px 0px 0px',borderColor:'lightgray',borderStyle:'solid'}}>
                             <BottomNavigationButton label="Mail" value={mainLayout.DOMAIN.MAIL} icon={<EmailIcon />} />
                             <BottomNavigationButton label="Tracker" value={mainLayout.DOMAIN.TRACKER} icon={<TrackChangesIcon />} />
                             <BottomNavigationButton label="InfoHub" value={mainLayout.DOMAIN.INFOHUB} icon={<PetsIcon />} />
@@ -322,20 +355,28 @@ class mainLayout extends React.Component {
                         </Drawer>
                     </Grid>
                     <Grid item hidden={{smDown: true}} sm={8} md={8} lg={8} xl={8} style={{flex:1,display:'flex',flexDirection:'column'}}>
-                        <MailComposerFrame  title={"怎么办，你看着办吧"}
-                                            author={"Andy Wang<joy.highland@gmail.com>"}
-                                            datetime = {"2017-09-12 13:32:33"}
-                                            itemType = {"mail"}
-                                            itemStatus = {"new"}>
-                            <p>
-                                十八大以来，习近平对外出访数十次，无论是署名文章还是主旨演讲，他的讲话里始终充满着古今中外的优秀文化元素。广征博引、纵横捭阖，具有鲜明特点和魅力的“习式”语言给人留下了深刻印象。
-                                在刚刚结束的“一带一路”国际合作高峰论坛上，习近平开场便引用《兰亭集序》中的名句“群贤毕至，少长咸集”来描述会议盛况，欢迎各国来宾。会上，习近平道出“不积跬步，无以至千里”“金字塔是一块块石头垒成的”“伟业非一日之功”，用中国、阿拉伯、欧洲的谚语名句强调同一个道理，即“一带一路”建设要稳扎稳打，久久为功，“一步一个脚印推进实施，一点一滴抓出成果”。
-                                “相知无远近，万里尚为邻”，2016年11月，习近平在秘鲁国会发表演讲时引用了唐代诗人张九龄《送韦城李少府》中的名句，表明两国虽地理位置距离遥远，但是国家关系仍可以像邻居一样亲密。
-                                “未之见而亲焉，可以往矣；久而不忘焉，可以来矣。”2016年1月，在阿盟总部演讲时，习近平引用这句两千多年前管子的话来讲述此行的重要意义。随后，他又道出孟子的“立天下之正位，行天下之大道”，进一步阐释中国对中东政策的坚持和立场，言简意赅，鞭辟入里。
-                                在博鳌亚洲论坛2015年年会上，习近平说，“夫物之不齐，物之情也”，强调“不同文明没有优劣之分，只有特色之别”，表达了要促进不同文明不同发展模式交流对话，在竞争比较中取长补短，在交流互鉴中共同发展的深刻思想。
-                                习近平在讲话中引用古今中外的名言警句、古语诗词，看似顺手拈来，但无不恰到好处，尽画龙点睛之妙，这既是中西方传统文化的交融，也是习近平对中国智慧的最好“代言”。
-                            </p>
-                        </MailComposerFrame>
+                        {
+                            this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.MAIL &&
+                            <MailComposerFrame title={"怎么办，你看着办吧"}
+                                               author={"Andy Wang<joy.highland@gmail.com>"}
+                                               datetime={"2017-09-12 13:32:33"}
+                                               itemType={"mail"}
+                                               itemStatus={"new"}>
+                                <p>
+                                    十八大以来，习近平对外出访数十次，无论是署名文章还是主旨演讲，他的讲话里始终充满着古今中外的优秀文化元素。广征博引、纵横捭阖，具有鲜明特点和魅力的“习式”语言给人留下了深刻印象。
+                                    在刚刚结束的“一带一路”国际合作高峰论坛上，习近平开场便引用《兰亭集序》中的名句“群贤毕至，少长咸集”来描述会议盛况，欢迎各国来宾。会上，习近平道出“不积跬步，无以至千里”“金字塔是一块块石头垒成的”“伟业非一日之功”，用中国、阿拉伯、欧洲的谚语名句强调同一个道理，即“一带一路”建设要稳扎稳打，久久为功，“一步一个脚印推进实施，一点一滴抓出成果”。
+                                    “相知无远近，万里尚为邻”，2016年11月，习近平在秘鲁国会发表演讲时引用了唐代诗人张九龄《送韦城李少府》中的名句，表明两国虽地理位置距离遥远，但是国家关系仍可以像邻居一样亲密。
+                                    “未之见而亲焉，可以往矣；久而不忘焉，可以来矣。”2016年1月，在阿盟总部演讲时，习近平引用这句两千多年前管子的话来讲述此行的重要意义。随后，他又道出孟子的“立天下之正位，行天下之大道”，进一步阐释中国对中东政策的坚持和立场，言简意赅，鞭辟入里。
+                                    在博鳌亚洲论坛2015年年会上，习近平说，“夫物之不齐，物之情也”，强调“不同文明没有优劣之分，只有特色之别”，表达了要促进不同文明不同发展模式交流对话，在竞争比较中取长补短，在交流互鉴中共同发展的深刻思想。
+                                    习近平在讲话中引用古今中外的名言警句、古语诗词，看似顺手拈来，但无不恰到好处，尽画龙点睛之妙，这既是中西方传统文化的交融，也是习近平对中国智慧的最好“代言”。
+                                </p>
+                            </MailComposerFrame>
+                        }
+                        {
+                            this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.CHAT &&
+                                <ChatFrame dialogs = {this.chatDiaglogs}/>
+                        }
+
                     </Grid>
                 </Grid>
 
