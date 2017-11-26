@@ -25,7 +25,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import DashBoardIcon from 'material-ui-icons/Dashboard';
 import PeopleIcon from 'material-ui-icons/People';
 import SearchIcon from 'material-ui-icons/Search';
-import TaskIcon from 'material-ui-icons/Assessment';
+import TaskIcon from 'material-ui-icons/Assignment';
 import DocumentIcon from 'material-ui-icons/InsertDriveFile';
 import WatchLaterIcon from 'material-ui-icons/WatchLater';
 import LightBulbIcon from 'material-ui-icons/LightbulbOutline';
@@ -44,13 +44,21 @@ import MailComposerFrame from './mailComposerFrame';
 
 const searchInputStyle = theme => ({
 
-    textFieldInput: {
+    textFieldRoot: {
         borderRadius: 4,
         background: theme.palette.common.white,
         border: '1px solid #ced4da',
         padding: '2px 5px 0px 5px',
-        alignItems:'center'
+        alignItems:'center',
     },
+    textFieldInput:{
+        '&:focus': {
+            width:200,
+            transition: '0.5s',
+        },
+        width:100,
+        transition: '0.5s',
+    }
 });
 
 let SearchInput = props => {
@@ -61,7 +69,8 @@ let SearchInput = props => {
                 placeholder="搜索"
                 disableUnderline={true}
                 classes = {{
-                    root: classes.textFieldInput,
+                    root: classes.textFieldRoot,
+                    input:classes.textFieldInput
                 }}
                 startAdornment={<InputAdornment position="start">
                     <SearchIcon color={'gray'}/>
@@ -188,8 +197,9 @@ class mainLayout extends React.Component {
         MAIL:'mail',
         TASK:'task',
         CHAT:'chat',
-        DOC:'doc'
-    }
+        DOC:'doc',
+        DISS:'discuss'
+    };
 
     constructor(props) {
 
@@ -203,6 +213,7 @@ class mainLayout extends React.Component {
             drawerOpen: false,
             currentMailAccount:"joy.highland@gmail.com",
             handleTarget:null,
+            domainTitle:null,
         };
 
         this.sideMenuFunctions = {};
@@ -215,7 +226,7 @@ class mainLayout extends React.Component {
             {key: 'docs', caption: 'Archives', icon: <DocumentIcon/>},
         ];
         this.sideMenuFunctions[mainLayout.DOMAIN.INFOHUB] = [
-            {key: 'new', caption: 'New', icon: <LightBulbIcon/>},
+            {key: 'active', caption: 'Active', icon: <LightBulbIcon/>},
             {key: 'pending', caption: 'Pending', icon: <WatchLaterIcon/>},
             {key: 'completed', caption: 'Completed', icon: <DoneAllIcon/>},
         ];
@@ -235,7 +246,7 @@ class mainLayout extends React.Component {
             {id: 'contact-msg-1',targetType:mainLayout.ITEM_TYPE.CHAT, primary:'Andy',secondary: '第15行有错误，BOSS说今天必须改完', icon: <Avatar src={"https://material-ui-next.com/static/images/remy.jpg"}/>},
             {id: 'task-1',targetType:mainLayout.ITEM_TYPE.TASK, primary:'韩梅梅', secondary: 'UI标准文档提交', icon: <TaskIcon/>},
             {id: 'mail-2',targetType:mainLayout.ITEM_TYPE.MAIL,primary:'hr@ccpi.com', secondary: 'Re:Re:答复: 转发: 关于召开2017网络质量指标工作研讨会的通知(网通[2017]307)', icon: <EmailIcon/>},
-            {id: 'discuss-topic',targetType:mainLayout.ITEM_TYPE.CHAT,primary:'PM Wang', secondary: '工程设计材料有问题，谁负责的检查？', icon: <ForumIcon/>},
+            {id: 'discuss-topic',targetType:mainLayout.ITEM_TYPE.DISS,primary:'北京天坛修缮讨论组', secondary: 'PM Wang:工程设计材料有问题，谁负责的检查？', icon: <ForumIcon/>},
             {id: 'docs-1',targetType:mainLayout.ITEM_TYPE.DOC, primary:'Google HR',secondary: '《XXX公司人力资源管理制度》', icon: <DocumentIcon/>},
             {id: 'mail-3',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '关于公司规范员工行为准则的通知', icon: <EmailIcon/>},
             {id: 'mail-4',targetType:mainLayout.ITEM_TYPE.MAIL, primary:'王炳史', secondary: '请协助提供X接口数据规范，今日反馈', icon: <EmailIcon/>},
@@ -255,21 +266,22 @@ class mainLayout extends React.Component {
         ];
 
         this.chatDiaglogs = [
-            {id:'1',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'第15行有错误，BOSS说今天必须改完',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'2',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'昨天那行代码你还没有调完呢',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'3',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'另外，你得明白我说的是什么，文档规范你一定要仔细看，细节都在里面',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'4',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'后天吧，咱们组织春游',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'5',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'有什么想去的地方，你可以推荐',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'6',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'人呢？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'7',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'怎么，你看我像疯子？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'8',mine:false,owner:'Andy',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'哎哎，说你呢！说你呢！',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
-            {id:'9',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'嗯？？？？？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-            {id:'10',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'有出什么事了？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-            {id:'11',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'不好意思，一直再加班，很多事情来不及仔细研究',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-            {id:'12',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'等我想好后答复你',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-            {id:'13',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'今天天气不错',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-            {id:'14',mine:true,owner:'马国力',timestamp:Moment().subtract('minutes',Math.random()*1440),primary:'你说五台山怎么样？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
-        ]
+            {id:'1',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'第15行有错误，BOSS说今天必须改完',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'2',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'昨天那行代码你还没有调完呢',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'3',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'另外，你得明白我说的是什么，文档规范你一定要仔细看，细节都在里面',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'4',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'后天吧，咱们组织春游',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'5',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'有什么想去的地方，你可以推荐',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'6',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'人呢？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'7',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'怎么，你看我像疯子？',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'8',mine:false,owner:'Andy',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'哎哎，说你呢！说你呢！',iconSrc:"https://material-ui-next.com/static/images/remy.jpg"},
+            {id:'9',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'嗯？？？？？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'10',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'有出什么事了？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'11',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'不好意思，一直再加班，很多事情来不及仔细研究',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'12',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'你说话能不能不这么跳跃，东一条西一句的，我看不明白',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'13',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'等我想好后答复你',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'14',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'今天天气不错',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+            {id:'15',mine:true,owner:'马国力',timestamp:Moment().subtract(Math.random()*1440,'minutes'),primary:'你说五台山怎么样？',iconSrc:"https://material-ui-next.com/static/images/uxceo-128.jpg"},
+        ];
         this.chatDiaglogs.sort((a,b) => a.timestamp.isBefore(b.timestamp)?-1:1);
         // console.log(this.sideMenuFunctions);
     }
@@ -278,17 +290,17 @@ class mainLayout extends React.Component {
         this.setState({ domain:value });
     };
 
-    openChatWindow(contact){
-        this.setState({
-            chatWindowsHidden:false,
-            chatWindowMinimized:false,
-            chatContact:contact
-        });
-    }
+    // openChatWindow(contact){
+    //     this.setState({
+    //         chatWindowsHidden:false,
+    //         chatWindowMinimized:false,
+    //         chatContact:contact
+    //     });
+    // }
 
-    changeChatTarget(contact){
-        this.openChatWindow(contact);
-    }
+    // changeChatTarget(contact){
+    //     this.openChatWindow(contact);
+    // }
 
     handleChatWindowStateChange(minimized,hidden){
         this.setState({
@@ -319,7 +331,10 @@ class mainLayout extends React.Component {
                                 >
                                     <MenuIcon />
                                 </IconButton>
-                                <div style={{flex:1}}/>
+                                <Typography type="title" color="inherit" style={{flex:1}}>
+                                    {this.state.domainTitle}
+                                </Typography>
+                                {/*<div style={{flex:1}}/>*/}
                                 <SearchInput />
                             </Toolbar>
                         </AppBar>
@@ -329,11 +344,14 @@ class mainLayout extends React.Component {
                         </div>
                         <BottomNavigation value={domain} onChange={this.handleChange}
                                           style={{borderWidth:'1px 0px 0px 0px',borderColor:'lightgray',borderStyle:'solid'}}>
-                            <BottomNavigationButton label="Mail" value={mainLayout.DOMAIN.MAIL} icon={<EmailIcon />} />
-                            <BottomNavigationButton label="Tracker" value={mainLayout.DOMAIN.TRACKER} icon={<TrackChangesIcon />} />
                             <BottomNavigationButton label="InfoHub" value={mainLayout.DOMAIN.INFOHUB} icon={<PetsIcon />} />
+                            <BottomNavigationButton label="Tracker" value={mainLayout.DOMAIN.TRACKER} icon={<TrackChangesIcon />} />
                             <BottomNavigationButton label="Project" value={mainLayout.DOMAIN.PROJECT} icon={<ExtensionIcon />} />
+                            <BottomNavigationButton label="Mail" value={mainLayout.DOMAIN.MAIL} icon={<EmailIcon />} />
                             <BottomNavigationButton label="Talks" value={mainLayout.DOMAIN.TALKS} icon={<ForumIcon />} />
+
+
+
                         </BottomNavigation>
                         <Drawer open={this.state.drawerOpen} onRequestClose={()=>{this.setState({drawerOpen:false})}}>
                             <Card style={{width: 300,}}>
@@ -351,6 +369,8 @@ class mainLayout extends React.Component {
                             </Card>
                             <SideFunctionMenu menuConfig = {this.sideMenuFunctions[this.state.domain]}
                                               onClose = {()=>{this.setState({drawerOpen:false})}}
+                                              onClick = {(menuItem)=>{this.setState({domainTitle:menuItem.caption});
+                                              console.log(menuItem);}}
                             />
                         </Drawer>
                     </Grid>
@@ -374,9 +394,11 @@ class mainLayout extends React.Component {
                         }
                         {
                             this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.CHAT &&
-                                <ChatFrame dialogs = {this.chatDiaglogs}/>
+                                <ChatFrame dialogs = {this.chatDiaglogs} frameType = {this.state.handleTarget.targetType} title={'与'+this.state.handleTarget.primary+'的交谈'}/>}
+                        {
+                            this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.DISS &&
+                                <ChatFrame dialogs = {this.chatDiaglogs} frameType = {this.state.handleTarget.targetType} title={this.state.handleTarget.primary}/>
                         }
-
                     </Grid>
                 </Grid>
 

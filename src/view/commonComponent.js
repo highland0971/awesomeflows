@@ -9,9 +9,83 @@ import List, {
     ListItemText,
 } from 'material-ui/List';
 
+import Input,{InputAdornment}from 'material-ui/Input';
+import IconButton from 'material-ui/IconButton';
+
+import FaceIcon from 'material-ui-icons/Face';
+import AssignmentIcon from 'material-ui-icons/Assignment';
+import AttachmentIcon from 'material-ui-icons/Attachment'
 import DoneIcon from 'material-ui-icons/Done';
 import ScheduleIcon from 'material-ui-icons/Schedule';
 import RequestIcon from 'material-ui-icons/PanTool';
+
+
+
+const chatInputStyle = theme =>({
+    base: {
+        // margin:9,
+    },
+    textFieldRoot: {
+        paddingTop:theme.spacing.unit/2,
+        paddingBottom:theme.spacing.unit/2,
+        paddingLeft:0,
+        paddingRight:theme.spacing.unit*2,
+        display:'flex',
+        alignItems:'center',
+        '&:focus': {
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+    textFieldInput: {
+        borderRadius: 4,
+        background: theme.palette.common.white,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 12px',
+        flex:1,
+        // width: 'calc(100% - 24px)',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        '&:focus': {
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+});
+
+class _chatInputComponent extends Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        const {classes} = this.props;
+        return (
+            <Input
+                placeholder="我想说..."
+                disableUnderline={true}
+                // className = {classes.root}
+                classes = {{
+                    root: classes.textFieldRoot,
+                    input: classes.textFieldInput,
+                }}
+                endAdornment={<InputAdornment position="end">
+                    <IconButton>
+                        <FaceIcon />
+                    </IconButton>
+                    <IconButton>
+                        <AttachmentIcon />
+                    </IconButton>
+                    <IconButton>
+                        <AssignmentIcon />
+                    </IconButton>
+                </InputAdornment>}
+            />
+        );
+    }
+}
+
+export let ChatInputComponent = withStyles(chatInputStyle)(_chatInputComponent);
 
 const contentListStyle = theme =>({
     root:{
@@ -91,12 +165,6 @@ class _sideFunctionMenus extends Component {
 
     }
 
-    handleSelect(selection)
-    {
-        this.handleClick(selection);
-
-    }
-
     render() {
         const classes = this.props.classes;
         console.log('ReRender trigered by sideFunctionMenus');
@@ -106,8 +174,8 @@ class _sideFunctionMenus extends Component {
                     {
                         this.menuConfig && this.menuConfig.map(entry => ( <ListItem button key={entry.key}
                                                                  onClick={
-                                                                     (selection = entry.key) => {
-                                                                         this.handleClick && this.handleClick(selection);
+                                                                     () => {
+                                                                         this.handleClick && this.handleClick(entry);
                                                                          this.handleClose && this.handleClose();
                                                                      }
                                                                  }

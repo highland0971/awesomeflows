@@ -1,10 +1,10 @@
 import React,{ Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import TextField from 'material-ui/TextField';
+
 import Paper from 'material-ui/Paper';
 import List, {
     ListItem,
@@ -13,15 +13,14 @@ import List, {
 } from 'material-ui/List';
 
 
-import Divider from 'material-ui/Divider';
+
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-
-import Collapse from 'material-ui/transitions/Collapse';
-
 import AttachFileIcon from 'material-ui-icons/AttachFile';
-import SettingIcon from 'material-ui-icons/Settings';
+import CloseIcon from 'material-ui-icons/Close';
+
+import {ChatInputComponent} from '../commonComponent';
 
 
 const style = theme =>({
@@ -75,13 +74,14 @@ class ChatFrame extends Component{
             <div className={classes.root}>
                 <AppBar position="static" color="default" >
                     <Toolbar className={classes.toolbar} >
-                        <div style={{flex:1}}/>
-
+                        <Typography type='title' color={"primary"} style={{flex:1}} >
+                            {this.props.title}
+                        </Typography>
                         <IconButton className={classes.button}>
                             <AttachFileIcon />
                         </IconButton>
                         <IconButton className={classes.button}>
-                            <SettingIcon />
+                            <CloseIcon />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
@@ -93,39 +93,31 @@ class ChatFrame extends Component{
                                     <ListItem key={entry.id}>
                                         {
                                             entry.mine ?
-                                                < ListItemText primary={entry.primary} secondary={entry.secondary} style={{textAlign:'end'}}/>
+                                                < ListItemText primary={entry.primary} secondary={entry.timestamp.format('h:mm:ss a')} style={{textAlign:'end'}}/>
                                                 :
-                                                <ListItemIcon><Avatar src={entry.iconSrc}/></ListItemIcon>
+                                                <ListItemIcon><Avatar src={entry.iconSrc} style={{width:36,height:36}}/></ListItemIcon>
                                         }
                                         {
                                             entry.mine ?
-                                                <ListItemIcon><Avatar src={entry.iconSrc}/></ListItemIcon>
+                                                <ListItemIcon><Avatar src={entry.iconSrc} style={{width:36,height:36}}/></ListItemIcon>
                                                 :
-                                                < ListItemText primary={entry.primary} secondary={entry.secondary}  />
+                                                < ListItemText primary={entry.primary} secondary={entry.timestamp.format('h:mm:ss a')}  />
                                         }
                                     </ListItem>)
                             )
                         }
                     </List>
                 </Paper>
-                <TextField
-                    placeholder="说点什么吧"
-                    InputProps={{
-                        disableUnderline: true,
-                        classes: {
-                            root: classes.textFieldRoot,
-                            input: classes.textFieldInput,
-                        },
-                    }}
-                    style={{
-                        position:'fixed',
-                        bottom:20,
-                        right:20,
-                        width:'calc(65% - 20px)'
-                        // marginLeft:16,
-                        // marginRight:16
-                    }}
-                />
+                <ChatInputComponent/>
+                {/*<TextField placeholder="说点什么吧" style={{margin:9,}}*/}
+                {/*InputProps={{*/}
+                    {/*disableUnderline: true,*/}
+                    {/*classes: {*/}
+                        {/*root: classes.textFieldRoot,*/}
+                        {/*input: classes.textFieldInput,*/}
+                    {/*},*/}
+                {/*}}/>*/}
+        
             </div>
         )
     }
