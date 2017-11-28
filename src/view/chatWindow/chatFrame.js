@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import {red} from 'material-ui/colors';
 
 import Paper from 'material-ui/Paper';
 import List, {
@@ -19,6 +20,8 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import AttachFileIcon from 'material-ui-icons/AttachFile';
 import CloseIcon from 'material-ui-icons/Close';
+import RecordIcon from 'material-ui-icons/FiberManualRecord';
+
 
 import {ChatInputComponent} from '../commonComponent';
 
@@ -77,6 +80,9 @@ class ChatFrame extends Component{
                         <Typography type='title' color={"primary"} style={{flex:1}} >
                             {this.props.title}
                         </Typography>
+                        <IconButton className={classes.button} style={{color:red[200]}}>
+                            <RecordIcon />
+                        </IconButton>
                         <IconButton className={classes.button}>
                             <AttachFileIcon />
                         </IconButton>

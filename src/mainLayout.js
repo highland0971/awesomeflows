@@ -40,7 +40,9 @@ import Moment from 'moment';
 
 import {SideFunctionMenu,ContentListComponent} from './view/commonComponent';
 import ChatFrame from './view/chatWindow/chatFrame'
-import MailComposerFrame from './mailComposerFrame';
+import MailComposerFrame from './view/mailWindow/mailFrame';
+import TaskFrame from './view/taskView';
+
 
 const searchInputStyle = theme => ({
 
@@ -398,6 +400,10 @@ class mainLayout extends React.Component {
                         {
                             this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.DISS &&
                                 <ChatFrame dialogs = {this.chatDiaglogs} frameType = {this.state.handleTarget.targetType} title={this.state.handleTarget.primary}/>
+                        }
+                        {
+                            this.state.handleTarget && this.state.handleTarget.targetType === mainLayout.ITEM_TYPE.TASK &&
+                            <TaskFrame dialogs = {this.chatDiaglogs} frameType = {this.state.handleTarget.targetType} title={this.state.handleTarget.secondary}/>
                         }
                     </Grid>
                 </Grid>

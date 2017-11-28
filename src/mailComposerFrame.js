@@ -13,6 +13,7 @@ import Button from 'material-ui/Button';
 import Collapse from 'material-ui/transitions/Collapse';
 
 import ReplyIcon from 'material-ui-icons/Reply';
+import CloseIcon from 'material-ui-icons/Close';
 import ReplyAllIcon from 'material-ui-icons/ReplyAll';
 import AssignmentIcon from 'material-ui-icons/Assignment';
 import ShareIcon from 'material-ui-icons/Share';
@@ -104,15 +105,17 @@ class mailComposerFrame extends Component {
                         <IconButton className={classes.button} >
                             <ShareIcon />
                         </IconButton>
-                        <IconButton className={classes.button} disabled>
+                        <IconButton className={classes.button} >
                             <AssignmentIcon />
                         </IconButton>
                         <IconButton className={classes.button}>
                             <DeleteIcon />
                         </IconButton>
-
+                        {/*<IconButton className={classes.button}>*/}
+                            {/*<FullScreenIcon />*/}
+                        {/*</IconButton>*/}
                         <IconButton className={classes.button}>
-                            <FullScreenIcon />
+                            <CloseIcon />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
