@@ -14,7 +14,7 @@ import IconButton from 'material-ui/IconButton';
 
 import FaceIcon from 'material-ui-icons/Face';
 import AssignmentIcon from 'material-ui-icons/Assignment';
-import AttachmentIcon from 'material-ui-icons/Attachment'
+import AttachmentIcon from 'material-ui-icons/Attachment';
 import DoneIcon from 'material-ui-icons/Done';
 import ScheduleIcon from 'material-ui-icons/Schedule';
 import RequestIcon from 'material-ui-icons/PanTool';
@@ -24,11 +24,12 @@ import RequestIcon from 'material-ui-icons/PanTool';
 const chatInputStyle = theme =>({
     base: {
         // margin:9,
+
     },
     textFieldRoot: {
         paddingTop:theme.spacing.unit/2,
         paddingBottom:theme.spacing.unit/2,
-        paddingLeft:0,
+        paddingLeft:theme.spacing.unit,
         paddingRight:theme.spacing.unit*2,
         display:'flex',
         alignItems:'center',
@@ -52,6 +53,32 @@ const chatInputStyle = theme =>({
         },
     },
 });
+
+class _commonInputComponent extends Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        const {classes} = this.props;
+        return (
+            <Input
+                placeholder="我想说..."
+                disableUnderline={true}
+                // className = {classes.root}
+                classes = {{
+                    root: classes.textFieldRoot,
+                    input: classes.textFieldInput,
+                }}
+                endAdornment={<InputAdornment position="end">
+                    {this.props.controls}
+                </InputAdornment>}
+            />
+        );
+    }
+}
+
+export let InputComponent = withStyles(chatInputStyle)(_commonInputComponent);
 
 class _chatInputComponent extends Component{
     constructor(props){
@@ -89,14 +116,14 @@ export let ChatInputComponent = withStyles(chatInputStyle)(_chatInputComponent);
 
 const contentListStyle = theme =>({
     root:{
-        borderRadius:2,
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
-        marginLeft:theme.spacing.unit*2,
-        marginRight:theme.spacing.unit*2,
-        boxShadow:'0px 1px 5px 0px rgba(0, 0, 0, 0.2),' +
-        '0px 2px 2px 0px rgba(0, 0, 0, 0.14), ' +
-        '0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
+        // borderRadius:2,
+        // marginTop: theme.spacing.unit,
+        // marginBottom: theme.spacing.unit,
+        // marginLeft:theme.spacing.unit*2,
+        // marginRight:theme.spacing.unit*2,
+        // boxShadow:'0px 1px 5px 0px rgba(0, 0, 0, 0.2),' +
+        // '0px 2px 2px 0px rgba(0, 0, 0, 0.14), ' +
+        // '0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
     },
 });
 
@@ -122,6 +149,7 @@ class _contentListComponent extends Component{
                                           // console.log(selection);
                                              }}
                                       classes = {{root:classes.root}}
+                                      divider = {true}
                             >
                                 <ListItemIcon>
                                     {entry.icon}

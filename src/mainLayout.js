@@ -176,7 +176,7 @@ const styles = theme => ({
     },
     customScroll:{
         '&::-webkit-scrollbar-trackPiece':{backgroundColor:'#fff'},
-        '&::-webkit-scrollbar':{width:2},
+        '&::-webkit-scrollbar':{width:theme.spacing.unit},
         '&::-webkit-scrollbar-thumb':{
             backgroundColor:'#999',
             borderRadius:'5px'},
